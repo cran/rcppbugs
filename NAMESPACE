@@ -1,0 +1,15 @@
+useDynLib(rcppbugs)
+
+S3method(print, mcmc.object)
+export(create.model,
+       logp,
+       run.model,
+       deterministic,
+       linear,
+       logistic,
+       mcmc.normal,
+       mcmc.uniform,
+       mcmc.gamma,
+       mcmc.bernoulli,
+       mcmc.binomial
+       )
