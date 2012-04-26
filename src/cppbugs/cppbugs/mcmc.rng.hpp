@@ -19,17 +19,9 @@
 #define MCMC_RNG_HPP
 
 #include <boost/random.hpp>
+#include <cppbugs/mcmc.rng.base.hpp>
 
 namespace cppbugs {
-
-  class RngBase {
-  public:
-    RngBase() {}
-    virtual double normal() = 0;
-    virtual double uniform() = 0;
-    //virtual int poisson(n) = 0;
-    // etc...
-  };
 
   template<typename T>
   class SpecializedRng : public RngBase {

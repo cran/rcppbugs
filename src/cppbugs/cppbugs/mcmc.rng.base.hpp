@@ -15,29 +15,20 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>. //
 ///////////////////////////////////////////////////////////////////////////
 
-#ifndef MCMC_OBJECT_HPP
-#define MCMC_OBJECT_HPP
+#ifndef MCMC_RNG_BASE_HPP
+#define MCMC_RNG_BASE_HPP
 
-#include <cppbugs/mcmc.rng.base.hpp>
 
 namespace cppbugs {
 
-  class MCMCObject {
+  class RngBase {
   public:
-    MCMCObject() {}
-    virtual ~MCMCObject() {}
-    virtual void jump(RngBase& rng) = 0;
-    virtual void accept() = 0;
-    virtual void reject() = 0;
-    virtual void tune() = 0;
-    virtual void preserve() = 0;
-    virtual void revert() = 0;
-    virtual void tally() = 0;
-    virtual bool isDeterministc() const = 0;
-    virtual bool isStochastic() const = 0;
-    virtual bool isObserved() const = 0;
-    virtual void setScale(const double scale) = 0;
+    RngBase() {}
+    virtual double normal() = 0;
+    virtual double uniform() = 0;
+    //virtual int poisson(n) = 0;
+    // etc...
   };
 
 } // namespace cppbugs
-#endif // MCMC_OBJECT_HPP
+#endif // MCMC_RNG_BASE_HPP

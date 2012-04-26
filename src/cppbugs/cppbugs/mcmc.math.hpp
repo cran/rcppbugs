@@ -20,12 +20,8 @@
 
 #include <cmath>
 #include <armadillo>
-//#include <armadillo_bits/eop_aux.hpp>
-
 #include <boost/math/special_functions/gamma.hpp>
 #include <boost/math/special_functions/factorials.hpp>
-//#include <cppbugs/fastlog.h>
-//#include <cppbugs/fastexp.h>
 
 namespace cppbugs {
 

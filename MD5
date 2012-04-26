@@ -1,4 +1,4 @@
-69cbca54f170a3c071489d54ee33ac15 *DESCRIPTION
+6585059353276c48eace0e70c67a5893 *DESCRIPTION
 d0dcceca6c329ff5518040bc66c5a056 *NAMESPACE
 790862689438b62a8192a42e4219ede3 *R/cppbugs.R
 f7c3685e69cdbe8ccc0969f73299a9cc *README.rst
@@ -7,6 +7,7 @@ ec1096edbea9468d5cdb019b1c5660cb *man/logp.Rd
 35774a3f29ad4972e4695144b1b3c2f6 *man/mcmc.distributions.Rd
 7e9be8a09f92e5d3932bb7e6c422544f *man/run.model.Rd
 e5f28249570dc99cfb946966262e1dff *src/Makevars
+3f7199721b47cff8649282e9d5bdb5f9 *src/Makevars.win
 7c97269dc007d85c58555b1daeb2786b *src/arma.context.h
 92799270d4a707f3af6d99ee3cb61853 *src/assign.bernoulli.logp.h
 fdd3b4005783df1c0dd418c9757a0ac0 *src/assign.binomial.logp.h
@@ -21,13 +22,14 @@ dbb24d984c60bfcd23c51a98c7401a94 *src/cppbugs/cppbugs/mcmc.deterministic.hpp
 6bb2a66cad3a15d613edabfacb82f136 *src/cppbugs/cppbugs/mcmc.dynamic.hpp
 448a52a1280ef04b894303844b75a75a *src/cppbugs/cppbugs/mcmc.dynamic.stochastic.hpp
 2228e84109f5cfd721d2249947debf03 *src/cppbugs/cppbugs/mcmc.gamma.hpp
-0dbd5c34f701db5088390c94cc323035 *src/cppbugs/cppbugs/mcmc.jump.hpp
-8eb641d70c27b033cf2e75e007408ca8 *src/cppbugs/cppbugs/mcmc.math.hpp
+c96b1bf95ed61090d096d532ec8f9fd0 *src/cppbugs/cppbugs/mcmc.jump.hpp
+55bc454aecb422f1717a1d25107af013 *src/cppbugs/cppbugs/mcmc.math.hpp
 272024cb71c4c6c5d9cfda191bfd8f19 *src/cppbugs/cppbugs/mcmc.model.hpp
 318c76d91cdd4a002c6b58b1968f77ae *src/cppbugs/cppbugs/mcmc.normal.hpp
-1fb3e9efd5140cfb1198c355dddb273f *src/cppbugs/cppbugs/mcmc.object.hpp
+7e0aa4acf87cfcca6a740623dc843c0f *src/cppbugs/cppbugs/mcmc.object.hpp
 5bee84b99c6cbe1b05e1786bd6d3fcce *src/cppbugs/cppbugs/mcmc.observed.hpp
-aa2b96e3468b1a0eba414026a6a7647c *src/cppbugs/cppbugs/mcmc.rng.hpp
+9f8f426003d7292cdc4b759a8959161c *src/cppbugs/cppbugs/mcmc.rng.base.hpp
+81aafb54ec7ddb0645ee32a4b1686466 *src/cppbugs/cppbugs/mcmc.rng.hpp
 02f4e4489cbdf7886db30ad22c90391f *src/cppbugs/cppbugs/mcmc.specialized.hpp
 f6d10fb765a42bcb8b4d094614f31d27 *src/cppbugs/cppbugs/mcmc.stochastic.hpp
 009ea049687f2e9ebdf5e848a967df33 *src/cppbugs/cppbugs/mcmc.uniform.hpp
@@ -48,10 +50,10 @@ ac07fc6d76fd1f6ebd03c21128e71268 *src/cppbugs/test/varying.coefs.test.cpp
 9c2f4cc41f9d660652a3528dff1b92b5 *src/finalizers.h
 b8d8ba92f29548bcb2b7f66a241b7f3b *src/helpers.cpp
 be92f11cb19f225c7c7bc16edfa22161 *src/helpers.h
-19428378863058623d9bdedfcea2c000 *src/interface.cpp
+df70e1402bed884e58e197e18488551d *src/interface.cpp
 a4b38b81efdcc6dac831ce8e5f53cff0 *src/linear.deterministic.h
 0c8db0ed2d26ba81cfbe84c0ba8d110e *src/logistic.deterministic.h
-a32e1020ad6be49bdb4d161a8b9794fe *src/mcmc.rng.h
+6be8f3e1d334c03ffe0d2c8998fb62ee *src/mcmc.rng.h
 b2ef21a48fc13e4578221bec65d16501 *src/r.deterministic.h
 6ea8c89b351dc2ac9e3a7395c45b2636 *src/r.mcmc.model.h
 631b0e61262fda13a85da5afe3dd2fa1 *src/raw.address.cpp
