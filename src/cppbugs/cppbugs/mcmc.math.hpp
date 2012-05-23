@@ -18,6 +18,7 @@
 #ifndef MCMC_MATH_HPP
 #define MCMC_MATH_HPP
 
+#include <stdexcept>
 #include <cmath>
 #include <armadillo>
 #include <boost/math/special_functions/gamma.hpp>
@@ -260,18 +261,8 @@ namespace arma {
 
 }
 
+// Stochastic/Math related functions
 namespace cppbugs {
-
-  // Stochastic/Math related functions
-
-  template<typename U>
-  double accu(const U&  x) {
-    return arma::accu(x);
-  }
-
-  double accu(const double x) {
-    return x;
-  }
 
   double dim_size(const double x) {
     return 1;
@@ -307,62 +298,95 @@ namespace cppbugs {
     return x*x;
   }
 
+  double mahalanobis(const arma::vec& x, const arma::vec& mu, const arma::mat& sigma) {
+    const arma::vec err = x - mu;
+    return arma::as_scalar(err.t() * sigma.i() * err);
+  }
+
+  double mahalanobis(const arma::rowvec& x, const arma::rowvec& mu, const arma::mat& sigma) {
+    const arma::rowvec err = x - mu;
+    return arma::as_scalar(err * sigma.i() * err.t());
+  }
+
   template<typename T, typename U, typename V>
   double normal_logp(const T& x, const U& mu, const V& tau) {
-    return accu(0.5*log_approx(0.5*tau/arma::math::pi()) - 0.5 * arma::schur(tau, square(x - mu)));
+    return arma::accu(0.5*log_approx(0.5*tau/arma::math::pi()) - 0.5 * arma::schur(tau, square(x - mu)));
   }
 
   template<typename T, typename U, typename V>
   double uniform_logp(const T& x, const U& lower, const V& upper) {
-    return (any(x < lower) || any(x > upper)) ? -std::numeric_limits<double>::infinity() : -accu(log_approx(upper - lower));
+    return (any(x < lower) || any(x > upper)) ? -std::numeric_limits<double>::infinity() : -arma::accu(log_approx(upper - lower));
   }
 
   template<typename T, typename U, typename V>
   double gamma_logp(const T& x, const U& alpha, const V& beta) {
     return any(x < 0 ) ?
       -std::numeric_limits<double>::infinity() :
-      accu(arma::schur((alpha - 1.0),log_approx(x)) - arma::schur(beta,x) - lgamma(alpha) + arma::schur(alpha,log_approx(beta)));
+      arma::accu(arma::schur((alpha - 1.0),log_approx(x)) - arma::schur(beta,x) - lgamma(alpha) + arma::schur(alpha,log_approx(beta)));
   }
 
-  /*
-  double binom_logp(const arma::ivec& x, const arma::ivec& n, const arma::vec& p) {
-    if(any(p <= 0) || any(p >= 1) || any(x < 0)  || any(x > n)) {
-      return -std::numeric_limits<double>::infinity();
-    } else {
-      //return accu(arma::schur(x,log(p)) + arma::schur((n-x),log(1-p)) + factln(n) - factln(x) - factln(n-x));
-      return accu(x % log_approx(p) + (n-x) % log_approx(1-p) + factln(n) - factln(x) - factln(n-x));
-    }
+  template<typename T, typename U, typename V>
+  double beta_logp(const T& x, const U& alpha, const V& beta) {
+    const double one = 1.0;
+    return any(x <= 0 ) || any(x >= 1 ) || any(alpha <= 0) || any(beta <= 0) ?
+      -std::numeric_limits<double>::infinity() :
+      arma::accu(lgamma(alpha+beta) - lgamma(alpha) - lgamma(beta) + (alpha-one)*log_approx(x) + (beta-one)*log_approx(one-x));
   }
-
-  double binom_logp(const int x, const int n, const double p) {
-    if(any(p <= 0) || any(p >= 1) || any(x < 0)  || any(x > n)) {
-      return -std::numeric_limits<double>::infinity();
-    } else {
-      return accu(x * log(p) + (n-x) * log(1-p) + factln(n) - factln(x) - factln(n-x));
-    }
-  }
-  */
 
   template<typename T, typename U, typename V>
   double binom_logp(const T& x, const U& n, const V& p) {
     if(any(p <= 0) || any(p >= 1) || any(x < 0)  || any(x > n)) {
       return -std::numeric_limits<double>::infinity();
     }
-    //std::cout << "arma::factln(n): " << arma::factln(n) << std::endl;
-    //std::cout << "arma::factln(x): " << std::endl << arma::factln(x) << std::endl;
-    //std::cout << "n-x: " << std::endl << n-x << std::endl;
-    //std::cout << "arma::factln(n-x): " << std::endl << arma::factln(n-x) << std::endl;
-    return accu(arma::schur(x,log_approx(p)) + arma::schur((n-x),log_approx(1-p)) + arma::factln(n) - arma::factln(x) - arma::factln(n-x));
+    return arma::accu(arma::schur(x,log_approx(p)) + arma::schur((n-x),log_approx(1-p)) + arma::factln(n) - arma::factln(x) - arma::factln(n-x));
   }
 
   template<typename T, typename U>
   double bernoulli_logp(const T& x, const U& p) {
-
     if( any(p <= 0 ) || any(p >= 1) || any(x < 0)  || any(x > 1) ) {
       return -std::numeric_limits<double>::infinity();
     } else {
-      return accu(arma::schur(x,log_approx(p)) + arma::schur((1-x), log_approx(1-p)));
+      return arma::accu(arma::schur(x,log_approx(p)) + arma::schur((1-x), log_approx(1-p)));
     }
   }
+
+  // sigma denotes cov matrix rather than precision matrix
+  double multivariate_normal_sigma_logp(const arma::rowvec& x, const arma::rowvec& mu, const arma::mat& sigma) {
+    const double log_2pi = log(2 * arma::math::pi());
+    arma::mat R(arma::zeros<arma::mat>(sigma.n_cols,sigma.n_cols));
+
+    // non-positive definite test via chol
+    if(chol(R,sigma) == false) { return -std::numeric_limits<double>::infinity(); }
+
+    // otherwise calc logp
+    return -arma::accu(x.n_elem * log_2pi + log_approx(arma::det(sigma)) + mahalanobis(x,mu,sigma))/2;
+  }
+
+  // sigma denotes cov matrix rather than precision matrix
+  double multivariate_normal_sigma_logp(const arma::vec& x, const arma::vec& mu, const arma::mat& sigma) {
+    const double log_2pi = log(2 * arma::math::pi());
+    arma::mat R(arma::zeros<arma::mat>(sigma.n_cols,sigma.n_cols));
+
+    // non-positive definite test via chol
+    if(chol(R,sigma) == false) { return -std::numeric_limits<double>::infinity(); }
+
+    // otherwise calc logp
+    return -arma::accu(x.n_elem * log_2pi + log_approx(arma::det(sigma)) + mahalanobis(x,mu,sigma))/2;
+  }
+
+  template<typename T, typename U, typename V>
+  void dimension_check(const T& x, const U& hyper1, const V& hyper2) {
+    if(dim_size(hyper1) > dim_size(x) || dim_size(hyper2) > dim_size(x)) {
+      throw std::logic_error("ERROR: dimensions of hyperparmeters are larger than the stochastic variable itself (is this really what you wanted to do?)");
+    }
+  }
+
+  template<typename T, typename U>
+  void dimension_check(const T& x, const U& hyper1) {
+    if(dim_size(hyper1) > dim_size(x)) {
+      throw std::logic_error("ERROR: dimensions of hyperparmeters are larger than the stochastic variable itself (is this really what you wanted to do?)");
+    }
+  }
+
 } // namespace cppbugs
 #endif // MCMC_STOCHASTIC_HPP

@@ -15,54 +15,53 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>. //
 ///////////////////////////////////////////////////////////////////////////
 
-#ifndef MCMC_GAMMA_HPP
-#define MCMC_GAMMA_HPP
+#ifndef MCMC_BETA_HPP
+#define MCMC_BETA_HPP
 
-
-#include <cmath>
 #include <armadillo>
-#include <cppbugs/mcmc.stochastic.hpp>
+#include <cppbugs/mcmc.dynamic.stochastic.hpp>
+#include <cppbugs/mcmc.observed.hpp>
 
 namespace cppbugs {
 
   template <typename T,typename U, typename V>
-  class GammaLikelihiood : public Likelihiood {
+  class BetaLikelihiood : public Likelihiood {
     const T& x_;
     const U& alpha_;
     const V& beta_;
   public:
-    GammaLikelihiood(const T& x,  const U& alpha,  const V& beta): x_(x), alpha_(alpha), beta_(beta) { dimension_check(x_, alpha_, beta_); }
+    BetaLikelihiood(  const T& x,  const U& alpha,  const V& beta): x_(x), alpha_(alpha), beta_(beta) { dimension_check(x_, alpha_, beta_); }
     inline double calc() const {
-      return gamma_logp(x_,alpha_,beta_);
+      return beta_logp(x_,alpha_,beta_);
     }
   };
 
   template<typename T>
-  class Gamma : public DynamicStochastic<T> {
+  class Beta : public DynamicStochastic<T> {
   public:
-    Gamma(T& value): DynamicStochastic<T>(value) {}
+    Beta(T& value): DynamicStochastic<T>(value) {}
 
-    // modified jumper to only take positive jumps
-    void jump(RngBase& rng) { positive_jump_impl(rng, DynamicStochastic<T>::value,DynamicStochastic<T>::scale_); }
+    // modified jumper to only take jumps on (0,1) interval
+    void jump(RngBase& rng) { bounded_jump_impl(rng, DynamicStochastic<T>::value,DynamicStochastic<T>::scale_, 0, 1); }
 
     template<typename U, typename V>
-    Gamma<T>& dgamma(const U& alpha, const V& beta) {
-      Stochastic::likelihood_functor = new GammaLikelihiood<T,U,V>(DynamicStochastic<T>::value,alpha,beta);
+    Beta<T>& dbeta(const U& alpha, const V& beta) {
+      Stochastic::likelihood_functor = new BetaLikelihiood<T,U,V>(DynamicStochastic<T>::value,alpha,beta);
       return *this;
     }
   };
 
   template<typename T>
-  class ObservedGamma : public Observed<T> {
+  class ObservedBeta : public Observed<T> {
   public:
-    ObservedGamma(const T& value): Observed<T>(value) {}
+    ObservedBeta(const T& value): Observed<T>(value) {}
 
     template<typename U, typename V>
-    ObservedGamma<T>& dgamma(const U& alpha, const V& beta) {
-      Stochastic::likelihood_functor = new GammaLikelihiood<T,U,V>(Observed<T>::value,alpha,beta);
+    ObservedBeta<T>& dbeta(const U& alpha, const V& beta) {
+      Stochastic::likelihood_functor = new BetaLikelihiood<T,U,V>(Observed<T>::value,alpha,beta);
       return *this;
     }
   };
 
 } // namespace cppbugs
-#endif // MCMC_GAMMA_HPP
+#endif // MCMC_BETA_HPP

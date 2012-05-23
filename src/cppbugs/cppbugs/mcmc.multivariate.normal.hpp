@@ -15,54 +15,57 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>. //
 ///////////////////////////////////////////////////////////////////////////
 
-#ifndef MCMC_GAMMA_HPP
-#define MCMC_GAMMA_HPP
+#ifndef MCMC_MULTIVARIATE_NORMAL_HPP
+#define MCMC_MULTIVARIATE_NORMAL_HPP
 
-
-#include <cmath>
 #include <armadillo>
-#include <cppbugs/mcmc.stochastic.hpp>
+#include <cppbugs/mcmc.dynamic.stochastic.hpp>
+#include <cppbugs/mcmc.observed.hpp>
 
 namespace cppbugs {
 
-  template <typename T,typename U, typename V>
-  class GammaLikelihiood : public Likelihiood {
+  template <typename T,typename U>
+  class MultivariateNormalLikelihiood : public Likelihiood {
     const T& x_;
-    const U& alpha_;
-    const V& beta_;
+    const U& mu_;
+    const arma::mat& sigma_;
   public:
-    GammaLikelihiood(const T& x,  const U& alpha,  const V& beta): x_(x), alpha_(alpha), beta_(beta) { dimension_check(x_, alpha_, beta_); }
+    MultivariateNormalLikelihiood(const T& x,  const U& mu,  const arma::mat& sigma): x_(x), mu_(mu), sigma_(sigma)
+    {
+      // need a modified dimension check
+      dimension_check(x_, mu_);
+      if(x_.n_elem != sigma_.n_rows || x_.n_elem != sigma_.n_cols) {
+        throw std::logic_error("ERROR: dimensions of x do not match sigma");
+      }
+    }
     inline double calc() const {
-      return gamma_logp(x_,alpha_,beta_);
+      return multivariate_normal_sigma_logp(x_,mu_,sigma_);
     }
   };
 
   template<typename T>
-  class Gamma : public DynamicStochastic<T> {
+  class MultivariateNormal : public DynamicStochastic<T> {
   public:
-    Gamma(T& value): DynamicStochastic<T>(value) {}
+    MultivariateNormal(T& value): DynamicStochastic<T>(value) {}
 
-    // modified jumper to only take positive jumps
-    void jump(RngBase& rng) { positive_jump_impl(rng, DynamicStochastic<T>::value,DynamicStochastic<T>::scale_); }
-
-    template<typename U, typename V>
-    Gamma<T>& dgamma(const U& alpha, const V& beta) {
-      Stochastic::likelihood_functor = new GammaLikelihiood<T,U,V>(DynamicStochastic<T>::value,alpha,beta);
+    template<typename U>
+    MultivariateNormal<T>& dmvnorm(const U& mu, const arma::mat& sigma) {
+      Stochastic::likelihood_functor = new MultivariateNormalLikelihiood<T,U>(DynamicStochastic<T>::value,mu,sigma);
       return *this;
     }
   };
 
   template<typename T>
-  class ObservedGamma : public Observed<T> {
+  class ObservedMultivariateNormal : public Observed<T> {
   public:
-    ObservedGamma(const T& value): Observed<T>(value) {}
+    ObservedMultivariateNormal(const T& value): Observed<T>(value) {}
 
-    template<typename U, typename V>
-    ObservedGamma<T>& dgamma(const U& alpha, const V& beta) {
-      Stochastic::likelihood_functor = new GammaLikelihiood<T,U,V>(Observed<T>::value,alpha,beta);
+    template<typename U>
+    ObservedMultivariateNormal<T>& dmvnorm(const U& mu, const arma::mat& sigma) {
+      Stochastic::likelihood_functor = new MultivariateNormalLikelihiood<T,U>(Observed<T>::value,mu,sigma);
       return *this;
     }
   };
 
 } // namespace cppbugs
-#endif // MCMC_GAMMA_HPP
+#endif // MCMC_MULTIVARIATE_NORMAL_HPP

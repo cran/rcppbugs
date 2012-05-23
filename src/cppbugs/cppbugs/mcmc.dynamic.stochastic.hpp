@@ -19,7 +19,7 @@
 #define MCMC_DYNAMIC_STOCHASTIC_HPP
 
 #include <armadillo>
-#include <cppbugs/mcmc.specialized.hpp>
+#include <cppbugs/mcmc.dynamic.hpp>
 #include <cppbugs/mcmc.stochastic.hpp>
 #include <cppbugs/mcmc.jump.hpp>
 #include <cppbugs/mcmc.math.hpp>
@@ -66,6 +66,7 @@ namespace cppbugs {
     bool isStochastic() const { return true; }
     bool isObserved() const { return false; }
     void setScale(const double scale) { scale_ = scale; }
+    double getScale() const { return scale_; }
   };
 
 } // namespace cppbugs

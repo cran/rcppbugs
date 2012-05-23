@@ -4,12 +4,15 @@ S3method(print, mcmc.object)
 export(create.model,
        logp,
        run.model,
+       get.ar,
        deterministic,
        linear,
+       linear.grouped,
        logistic,
        mcmc.normal,
        mcmc.uniform,
        mcmc.gamma,
+       mcmc.beta,
        mcmc.bernoulli,
        mcmc.binomial
        )

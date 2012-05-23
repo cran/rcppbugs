@@ -2,6 +2,7 @@
 \alias{mcmc.normal}
 \alias{mcmc.uniform}
 \alias{mcmc.gamma}
+\alias{mcmc.beta}
 \alias{mcmc.bernoulli}
 \alias{mcmc.binomial}
 
@@ -15,6 +16,7 @@
 mcmc.normal(x, mu, tau, observed = FALSE)
 mcmc.uniform(x, lower, upper, observed = FALSE)
 mcmc.gamma(x, alpha, beta, observed = FALSE)
+mcmc.beta(x, alpha, beta, observed = FALSE)
 mcmc.bernoulli(x, p, observed = FALSE)
 mcmc.binomial(x, n, p, observed = FALSE)
 }
@@ -52,12 +54,11 @@ rcppbugs was written by Whit Armstrong.
   \code{\link{logp}}
 }
 \examples{
-NR <- 100
-NC <- 2
-y <- matrix(rnorm(NR,1),nr=NR,nc=1L)
-b <- mcmc.normal(rnorm(NC),mu=0,tau=0.0001)
-tau.y <- mcmc.gamma(sd(as.vector(y)),alpha=0.1,beta=0.1)
-y.lik <- mcmc.normal(y,mu=y.hat,tau=tau.y,observed=TRUE)
+
+b <- mcmc.normal(rnorm(10),mu=0,tau=0.0001)
+tau <- mcmc.gamma(runif(1),alpha=0.1,beta=0.1)
+b.unif <- mcmc.uniform(runif(1),lower=0,upper=100)
+
 }
 \keyword{models}
 

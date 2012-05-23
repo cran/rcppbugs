@@ -58,6 +58,7 @@ distMapT initDistributions() {
   // deterministic types
   ans["deterministic"] = deterministicT;
   ans["linear.deterministic"] = linearDeterministicT;
+  ans["linear.grouped.deterministic"] = linearGroupedDeterministicT;
   ans["logistic.deterministic"] = logisticDeterministicT;
 
   // continuous types
@@ -80,4 +81,12 @@ distT matchDistibution(const std::string distibution) {
     throw std::logic_error(error_ss.str());
   }
   return distMap[distibution];
+}
+
+SEXP forceEval(SEXP x_, SEXP rho_, const int limit) {
+  int i = 0;
+  while((TYPEOF(x_)==SYMSXP || TYPEOF(x_)==LANGSXP) && i < limit) {
+    x_ = Rf_eval(x_,rho_); ++i;
+  }
+  return x_;
 }
