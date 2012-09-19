@@ -1,4 +1,4 @@
-fbceb723b5860adfcebb55ec6203399a *DESCRIPTION
+32dafce3bcbe98be7b9a1141e57125d7 *DESCRIPTION
 a4e3f539efeb6dee2c8c85a7d485df0d *NAMESPACE
 ce86c69cc1c3085a4671be8b2541453c *R/cppbugs.R
 f7c3685e69cdbe8ccc0969f73299a9cc *README.rst
@@ -53,7 +53,7 @@ ac07fc6d76fd1f6ebd03c21128e71268 *src/cppbugs/test/varying.coefs.test.cpp
 9c2f4cc41f9d660652a3528dff1b92b5 *src/finalizers.h
 ab5a6f75e6bf6e2a19c9df7ecaa0fe72 *src/helpers.cpp
 c77d6eb0f10e33d0c77f4957220c798a *src/helpers.h
-80efd55cc5f7e117c7d7c891c19a3eb6 *src/interface.cpp
+b795678d111c1bb8aee0ad3f222a426c *src/interface.cpp
 a4b38b81efdcc6dac831ce8e5f53cff0 *src/linear.deterministic.h
 bb1f721289165d315a8e5b213caa38ae *src/linear.grouped.deterministic.h
 0c8db0ed2d26ba81cfbe84c0ba8d110e *src/logistic.deterministic.h
@@ -62,4 +62,5 @@ bb1f721289165d315a8e5b213caa38ae *src/linear.grouped.deterministic.h
 202d92f736256954b98b632d64d04aef *src/r.mcmc.model.h
 631b0e61262fda13a85da5afe3dd2fa1 *src/raw.address.cpp
 9572bc6816a132c8b98f6dd408450d93 *src/raw.address.h
+5d95b6ce7b362dbcefac6d75c4c0bcbe *tests/logp.r
 2d6d89d308f505b3daa7c2cab0a4f3df *tests/simple.model.r

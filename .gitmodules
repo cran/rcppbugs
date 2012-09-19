@@ -1,3 +1,0 @@
-[submodule "src/cppbugs"]
-	path = src/cppbugs
-	url = git@github.com:armstrtw/CppBugs.git

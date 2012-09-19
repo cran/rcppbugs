@@ -88,6 +88,8 @@ ArmaContext* mapOrFetch(SEXP x_, vpArmaMapT& armaMap) {
   void* vp = rawAddress(x_);
 
   if(armaMap.count(vp)==0) {
+    // protect object if adding to armaMap
+    PROTECT(x_);
     x_arma = getArma(x_);
     armaMap[vp] = x_arma;
   } else {
@@ -260,14 +262,12 @@ SEXP runModel(SEXP m_, SEXP iterations, SEXP burn_in, SEXP adapt, SEXP thin) {
     arglist[i] = forceEval(arglist[i],env_,eval_limit);
 
     try {
-      ArmaContext* ap = getArma(arglist[i]);
-      armaMap[rawAddress(arglist[i])] = ap;
+      ArmaContext* ap = mapOrFetch(arglist[i], armaMap);
       cppbugs::MCMCObject* node = createMCMC(arglist[i],armaMap);
       mcmcMap[rawAddress(arglist[i])] = node;
       mcmcObjects.push_back(node);
     } catch (std::logic_error &e) {
-      releaseMap(armaMap);
-      releaseMap(mcmcMap);
+      releaseMap(armaMap); releaseMap(mcmcMap); UNPROTECT(armaMap.size());
       REprintf("%s\n",e.what());
       return R_NilValue;
     }
@@ -284,8 +284,7 @@ SEXP runModel(SEXP m_, SEXP iterations, SEXP burn_in, SEXP adapt, SEXP thin) {
     //std::cout << "acceptance_ratio: " << m.acceptance_ratio() << std::endl;
     REAL(ar)[0] = m.acceptance_ratio();
   } catch (std::logic_error &e) {
-    releaseMap(armaMap);
-    releaseMap(mcmcMap);
+    releaseMap(armaMap); releaseMap(mcmcMap); UNPROTECT(armaMap.size());
     UNPROTECT(1); // ar
     REprintf("%s\n",e.what());
     return R_NilValue;
@@ -293,8 +292,7 @@ SEXP runModel(SEXP m_, SEXP iterations, SEXP burn_in, SEXP adapt, SEXP thin) {
 
   SEXP ans;
   PROTECT(ans = createTrace(arglist,armaMap,mcmcMap));
-  releaseMap(armaMap);
-  releaseMap(mcmcMap);
+  releaseMap(armaMap);releaseMap(mcmcMap); UNPROTECT(armaMap.size());
   Rf_setAttrib(ans, R_NamesSymbol, makeNames(argnames));
   Rf_setAttrib(ans, Rf_install("acceptance.ratio"), ar);
   UNPROTECT(2); // ans + ar
