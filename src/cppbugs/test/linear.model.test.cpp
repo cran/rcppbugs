@@ -1,12 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <armadillo>
-#include <boost/random.hpp>
 #include <cppbugs/cppbugs.hpp>
-#include <cppbugs/mcmc.model.hpp>
-#include <cppbugs/mcmc.deterministic.hpp>
-#include <cppbugs/mcmc.normal.hpp>
-#include <cppbugs/mcmc.uniform.hpp>
 
 using namespace arma;
 using namespace cppbugs;
@@ -14,6 +9,8 @@ using std::cout;
 using std::endl;
 
 int main() {
+  const double zero(0),one_hundred(100),one_e3(0.001);
+
   const int NR = 1e2;
   const int NC = 2;
   const mat y = randn<mat>(NR,1) + 10;
@@ -37,8 +34,8 @@ int main() {
 
   MCModel<boost::minstd_rand> m(model);
 
-  m.track<Normal>(b).dnorm(0.0, 0.0001);
-  m.track<Uniform>(tau_y).dunif(0,100);
+  m.track<Normal>(b).dnorm(zero, one_e3);
+  m.track<Uniform>(tau_y).dunif(zero,one_hundred);
   m.track<ObservedNormal>(y).dnorm(y_hat,tau_y);
   m.track<Deterministic>(rsq);
 

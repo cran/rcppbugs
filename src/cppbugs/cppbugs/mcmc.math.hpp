@@ -261,6 +261,17 @@ namespace arma {
 
 }
 
+// insert an 'any' function for bools into the arma namespace
+namespace arma {
+  const bool any(const bool x) {
+    return x;
+  }
+
+  const bool vectorise(bool x) {
+    return x;
+  }
+}
+
 // Stochastic/Math related functions
 namespace cppbugs {
 
@@ -281,14 +292,10 @@ namespace cppbugs {
     return x.n_elem;
   }
 
-  bool any(const bool x) {
-    return x;
-  }
-
-  bool any(const arma::umat& x) {
-    const arma::umat ans(arma::find(x,1));
-    return ans.n_elem > 0;
-  }
+  // bool arma::any(const arma::umat& x) {
+  //   const arma::umat ans(arma::find(x,1));
+  //   return ans.n_elem > 0;
+  // }
 
   static inline double square(double x) {
     return x*x;
@@ -315,12 +322,12 @@ namespace cppbugs {
 
   template<typename T, typename U, typename V>
   double uniform_logp(const T& x, const U& lower, const V& upper) {
-    return (any(x < lower) || any(x > upper)) ? -std::numeric_limits<double>::infinity() : -arma::accu(log_approx(upper - lower));
+    return (arma::any(arma::vectorise(x < lower)) || arma::any(arma::vectorise(x > upper))) ? -std::numeric_limits<double>::infinity() : -arma::accu(log_approx(upper - lower));
   }
 
   template<typename T, typename U, typename V>
   double gamma_logp(const T& x, const U& alpha, const V& beta) {
-    return any(x < 0 ) ?
+    return arma::any(arma::vectorise(x < 0)) ?
       -std::numeric_limits<double>::infinity() :
       arma::accu(arma::schur((alpha - 1.0),log_approx(x)) - arma::schur(beta,x) - lgamma(alpha) + arma::schur(alpha,log_approx(beta)));
   }
@@ -328,14 +335,14 @@ namespace cppbugs {
   template<typename T, typename U, typename V>
   double beta_logp(const T& x, const U& alpha, const V& beta) {
     const double one = 1.0;
-    return any(x <= 0 ) || any(x >= 1 ) || any(alpha <= 0) || any(beta <= 0) ?
+    return arma::any(arma::vectorise(x <= 0)) || arma::any(arma::vectorise(x >= 1)) || arma::any(arma::vectorise(alpha <= 0)) || arma::any(arma::vectorise(beta <= 0)) ?
       -std::numeric_limits<double>::infinity() :
-      arma::accu(lgamma(alpha+beta) - lgamma(alpha) - lgamma(beta) + (alpha-one)*log_approx(x) + (beta-one)*log_approx(one-x));
+      arma::accu(lgamma(alpha+beta) - lgamma(alpha) - lgamma(beta) + arma::schur((alpha-one),log_approx(x)) + arma::schur((beta-one),log_approx(one-x)));
   }
 
   template<typename T, typename U, typename V>
   double binom_logp(const T& x, const U& n, const V& p) {
-    if(any(p <= 0) || any(p >= 1) || any(x < 0)  || any(x > n)) {
+    if(arma::any(arma::vectorise(p <= 0)) || arma::any(arma::vectorise(p >= 1)) || arma::any(arma::vectorise(x < 0))  || arma::any(arma::vectorise(x > n))) {
       return -std::numeric_limits<double>::infinity();
     }
     return arma::accu(arma::schur(x,log_approx(p)) + arma::schur((n-x),log_approx(1-p)) + arma::factln(n) - arma::factln(x) - arma::factln(n-x));
@@ -343,7 +350,7 @@ namespace cppbugs {
 
   template<typename T, typename U>
   double bernoulli_logp(const T& x, const U& p) {
-    if( any(p <= 0 ) || any(p >= 1) || any(x < 0)  || any(x > 1) ) {
+    if( arma::any(arma::vectorise(p <= 0)) || arma::any(arma::vectorise(p >= 1)) || arma::any(arma::vectorise(x < 0))  || arma::any(arma::vectorise(x > 1)) ) {
       return -std::numeric_limits<double>::infinity();
     } else {
       return arma::accu(arma::schur(x,log_approx(p)) + arma::schur((1-x), log_approx(1-p)));
