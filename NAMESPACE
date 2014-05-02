@@ -1,5 +1,7 @@
 useDynLib(rcppbugs)
 
+import(Rcpp)
+
 S3method(print, mcmc.object)
 export(create.model,
        logp,

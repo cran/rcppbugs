@@ -66,7 +66,7 @@ namespace cppbugs {
 
   /* ICSIlog V 2.0 */
   const std::vector<float> fill_icsi_log_table2(const unsigned int precision) {
-    std::vector<float> pTable(static_cast<size_t>(pow(2,precision)));
+    std::vector<float> pTable(static_cast<size_t>(pow(2.0,static_cast<double>(precision))));
 
     /* step along table elements and x-axis positions
        (start with extra half increment, so the steps intersect at their midpoints.) */

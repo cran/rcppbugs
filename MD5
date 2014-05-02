@@ -1,13 +1,13 @@
-56531094a6e363c10deef871b0d34ec7 *DESCRIPTION
-a4e3f539efeb6dee2c8c85a7d485df0d *NAMESPACE
+35ba7e17cd4e8e1a21e488f986c918b6 *DESCRIPTION
+47435fee700f1e042a3825dc382d7014 *NAMESPACE
 ce86c69cc1c3085a4671be8b2541453c *R/cppbugs.R
 f7c3685e69cdbe8ccc0969f73299a9cc *README.rst
 17d5820eae923a4166b51500fa92770b *man/deterministic.Rd
 ec1096edbea9468d5cdb019b1c5660cb *man/logp.Rd
 ca576f77d67f5821b50a4686803e832b *man/mcmc.distributions.Rd
 da58371612f3db0e223083876c59168f *man/run.model.Rd
-e5f28249570dc99cfb946966262e1dff *src/Makevars
-3f7199721b47cff8649282e9d5bdb5f9 *src/Makevars.win
+05c5bdb291ddbcf05125138a7d9dd1be *src/Makevars
+05c5bdb291ddbcf05125138a7d9dd1be *src/Makevars.win
 7c97269dc007d85c58555b1daeb2786b *src/arma.context.h
 0c2c6673fe146140e01d6f079b58839d *src/assign.bernoulli.logp.h
 ec4bf5d46c908b08b0ba492f7d7d72a1 *src/assign.beta.logp.h
@@ -31,7 +31,7 @@ e9b98d28ad1587628dd078c9654dfdc9 *src/cppbugs/cppbugs/mcmc.deterministic.hpp
 b1f274ebdd2963d438b7bcb368929721 *src/cppbugs/cppbugs/mcmc.dynamic.hpp
 6cd47f86d04ca8bfc9c912a77e50227f *src/cppbugs/cppbugs/mcmc.dynamic.stochastic.hpp
 4f19888735ec016b92d8594d1e4823ac *src/cppbugs/cppbugs/mcmc.jump.hpp
-8f0fba3d099c65f25b0043c77844e6fd *src/cppbugs/cppbugs/mcmc.math.hpp
+093dea24ab95b63bc21de2ddb3a4781f *src/cppbugs/cppbugs/mcmc.math.hpp
 b090ccfac19b25b6ab2b4b6e4590b5ea *src/cppbugs/cppbugs/mcmc.model.hpp
 7a632601ae8b12cf1ce7cdd7e3560f16 *src/cppbugs/cppbugs/mcmc.object.hpp
 9fbd44517d2662cdf8f4bf517e536134 *src/cppbugs/cppbugs/mcmc.observed.hpp
