@@ -1,4 +1,4 @@
-35ba7e17cd4e8e1a21e488f986c918b6 *DESCRIPTION
+0de7014ca3b2f59ca23d59ae42f72a89 *DESCRIPTION
 47435fee700f1e042a3825dc382d7014 *NAMESPACE
 ce86c69cc1c3085a4671be8b2541453c *R/cppbugs.R
 f7c3685e69cdbe8ccc0969f73299a9cc *README.rst
@@ -59,7 +59,7 @@ c77d6eb0f10e33d0c77f4957220c798a *src/helpers.h
 a4b38b81efdcc6dac831ce8e5f53cff0 *src/linear.deterministic.h
 bb1f721289165d315a8e5b213caa38ae *src/linear.grouped.deterministic.h
 0c8db0ed2d26ba81cfbe84c0ba8d110e *src/logistic.deterministic.h
-6be8f3e1d334c03ffe0d2c8998fb62ee *src/mcmc.rng.h
+97c399cc82fc511868e7a97bb57e029c *src/mcmc.rng.h
 81e33781065f12cab1af8f789992c72b *src/r.deterministic.h
 202d92f736256954b98b632d64d04aef *src/r.mcmc.model.h
 631b0e61262fda13a85da5afe3dd2fa1 *src/raw.address.cpp

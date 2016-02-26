@@ -19,7 +19,8 @@
 #define MCMC_R_NATIVE_RNG_H
 
 #include <cppbugs/mcmc.rng.base.hpp>
-#include <S.h>
+// was #include <S.h>
+#include <R_ext/Random.h>
 
 namespace cppbugs {
 

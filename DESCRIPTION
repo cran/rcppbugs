@@ -1,6 +1,6 @@
 Package: rcppbugs
 Title: R binding for cppbugs
-Version: 0.1.4.1
+Version: 0.1.4.2
 Maintainer: Whit Armstrong <armstrong.whit@gmail.com>
 Author: Whit Armstrong <armstrong.whit@gmail.com>
 Description: R binding for cppbugs
@@ -9,7 +9,7 @@ URL: http://github.com/armstrtw/rcppbugs
 BugReports: http://github.com/armstrtw/rcppbugs/issues
 Depends: Rcpp (>= 0.11)
 LinkingTo: Rcpp, RcppArmadillo, BH
-Packaged: 2014-05-02 07:26:38 UTC; ripley
+Packaged: 2016-02-26 06:18:19 UTC; ripley
 NeedsCompilation: yes
 Repository: CRAN
-Date/Publication: 2014-05-02 09:39:27
+Date/Publication: 2016-02-26 09:26:15
